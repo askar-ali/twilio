@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS app_user (
+    id BIGSERIAL PRIMARY KEY NOT NULL,
+    created_on TIMESTAMP DEFAULT now(),
+    modified_on TIMESTAMP DEFAULT now(),
+    username VARCHAR(128) NOT NULL,
+    email VARCHAR(128) NOT NULL,
+    password VARCHAR(128) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS file (
+    id BIGSERIAL PRIMARY KEY NOT NULL,
+    created_on TIMESTAMP DEFAULT now(),
+    user_id BIGINT NOT NULL REFERENCES app_user(id),
+    title VARCHAR(128) NOT NULL,
+    size VARCHAR(16) NOT NULL,
+    path VARCHAR(128) NOT NULL
+);
