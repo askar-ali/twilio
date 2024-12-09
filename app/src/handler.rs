@@ -1,5 +1,7 @@
-use axum::Form;
+use axum::{Extension, Form};
 use serde::Deserialize;
+
+use crate::ExtState;
 
 #[derive(Deserialize, Debug)]
 pub struct WebhookData {
@@ -17,7 +19,11 @@ pub struct WebhookData {
     pub ChannelToAddress: Option<String>,
 }
 
-pub async fn handle_twilio_webhook_status(Form(form): Form<WebhookData>) {
+pub async fn handle_twilio_webhook_status(
+    Extension(app_state): ExtState,
+    Form(form): Form<WebhookData>,
+) {
+    let db = app_state.db;
     println!("{:?}", form);
 }
 
@@ -42,6 +48,9 @@ pub struct WebhookPayload {
     pub ApiVersion: String,
 }
 
-pub async fn handle_twilio_webhook_payload(Form(form): Form<WebhookPayload>) {
+pub async fn handle_twilio_webhook_payload(
+    Extension(app_state): ExtState,
+    Form(form): Form<WebhookPayload>,
+) {
     println!("{:?}", form);
 }
